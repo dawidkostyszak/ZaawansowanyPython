@@ -1,3 +1,8 @@
+"""
+Author: Dawid Kostyszak
+Lista 2 zadanie 3
+Deadline: 22.10.2013
+"""
 import timeit
 import lista2_cz2 as zad
 

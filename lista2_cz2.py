@@ -1,3 +1,8 @@
+"""
+Author: Dawid Kostyszak
+Lista 2 zadanie 3
+Deadline: 22.10.2013
+"""
 class Error(Exception):
     def __init__(self, message=None):
         self.message = message
