@@ -41,10 +41,3 @@ def fib(n):
         fibonacci_with_exception(n, 0, 1)
     except Error as e:
         return e.message
-
-
-print "Factorial WithoutExcept: ", factorial(19)
-print "Factorial WithExcept:", fac(19)
-print "\n"
-print "Fibonacci WithoutExcept:", fibonacci(14)
-print "Fibonacci WithExcept:", fib(14)
