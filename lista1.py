@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 from random import randint
 import sys
 
@@ -31,9 +31,9 @@ class PlayRoll(object):
             L[0].lose += 1
             L[1].win += 1
         print '\nGracz 1 wyrzucił %d i %d\nBilans zwycięstwa/porażki %d/%d'\
-              %(L[0].roll[0], L[0].roll[1], L[0].win, L[0].lose)
+              % (L[0].roll[0], L[0].roll[1], L[0].win, L[0].lose)
         print 'Gracz 2 wyrzucił %d i %d\nBilans zwycięstwa/porażki %d/%d\n'\
-              %(L[1].roll[0], L[1].roll[1], L[1].win, L[1].lose)
+              % (L[1].roll[0], L[1].roll[1], L[1].win, L[1].lose)
 
     def play(self, n):
         player1 = Player()
@@ -55,4 +55,4 @@ if __name__ == "__main__":
 
     playgame = PlayRoll()
     p = playgame.play(games)
-    print 'Wygrał: %s \n' %('Gracz 1' if p[0] > p[1] else 'Gracz 2')
+    print 'Wygrał: %s \n' % ('Gracz 1' if p[0] > p[1] else 'Gracz 2')
