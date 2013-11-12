@@ -38,6 +38,7 @@ def korekta(zdanie):
 
 plik = open('plik.txt', 'r')
 tekst = plik.read()
+plik.close()
 
 for i in imap(korekta, generator_zdania(tekst)):
     print i
