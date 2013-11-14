@@ -1,3 +1,4 @@
+from sets import Set
 import re
 import urllib2
 
@@ -21,54 +22,89 @@ def wczytaj_strone(url):
     return html_file
 
 
+def policz_wystapienie_slowa(url, slowo):
+    try:
+        html_file = wczytaj_strone(url)
+        return html_file.count(slowo)
+    except Error as e:
+        return 'Strona nie istnieje'
+
+
 def znajdz_odnosniki(url):
     try:
         html_file = wczytaj_strone(url)
 
-        regex = re.compile('http://' + '([a-zA-Z]+\.)*[a-zA-Z]+')
-        urls = [url.group() for url in regex.finditer(html_file)]
+        regex = re.compile('http://' + '([a-zA-Z]+\.)+[a-zA-Z]+')
+        urls = Set(
+            u.group() for u in regex.finditer(html_file) if u.group() != url
+        )
         return urls
     except Error as e:
         return []
 
 
-def idz_glebiej(url, slowo):
+def idz_glebiej(url, slowo, wynik):
     urls = znajdz_odnosniki(url)
     global ile
     if ile < glebokosc:
         ile += 1
-        for url in urls:
-            idz_glebiej(url, slowo)
+        for u in urls:
+            wynik = idz_glebiej(u, slowo, wynik)
             try:
-                html_file = wczytaj_strone(url)
-
-                return html_file.count(slowo)
+                wynik[url] = policz_wystapienie_slowa(url, slowo)
+                return wynik
             except Error as e:
-                return 0
+                wynik[u] = 'Strona nie istnieje'
+                return wynik
+
+        wynik[url] = 'Strona nie istnieje'
+        return wynik
+
     else:
         try:
-            html_file = wczytaj_strone(url)
-
-            return html_file.count(slowo)
+            wynik[url] = policz_wystapienie_slowa(url, slowo)
+            return wynik
         except Error as e:
-            return 0
+            wynik[url] = 0
+            return wynik
 
 
 def start(slowo):
     global glebokosc
-    glebokosc = 5
-    L = []
+    glebokosc = 2
+    wynik = {}
+    url = 'http://python.rk.edu.pl'
 
     try:
-        urls = znajdz_odnosniki('http://python.rk.edu.pl/')
+        urls = znajdz_odnosniki(url)
     except urllib2.URLError as err:
-        raise Error("No network connection")
+        raise Error("Strona nie istnieje")
 
-    for url in urls:
+    for u in urls:
         global ile
         ile = 0
-        L.append(idz_glebiej(url, slowo))
-    pass
+        wynik = idz_glebiej(u, slowo, wynik)
+
+    for k, v in wynik.items():
+        print k, v
+
+    print '<--------------'
 
 
 start('Python')
+
+
+# def start2(slowo):
+#     try:
+#         urls = znajdz_odnosniki('http://python.rk.edu.pl')
+#     except urllib2.URLError as err:
+#         raise Error("Strona nie istnieje")
+#
+#     for url in urls:
+#         try:
+#             html_file = wczytaj_strone(url)
+#             print url, html_file.count(slowo)
+#         except Error as e:
+#             print url, e.value
+#
+# start2('Python')
